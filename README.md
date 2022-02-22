@@ -13,6 +13,7 @@ You can find all the parameters using `./TVC_CM --help`
 ## Database configuration
 This list is not an official list from TVC and can contains old fields. If this is the case, please open [an issue](https://github.com/triat/TVC-configuration-manager/issues) or report to Biwaa#7257 (Discord)
 
+```
 |+--------------------+---------------+------+-----+---------+--------------+|
 | Field              | Type          | Null | Key | Default | Extra          |
 |+--------------------+---------------+------+-----+---------+--------------+|
@@ -42,6 +43,7 @@ This list is not an official list from TVC and can contains old fields. If this 
 | DCAVolumeScale     | decimal(4,2)  | YES  |     | NULL    |                |
 | DCAStepScale       | decimal(4,2)  | YES  |     | NULL    |                |
 |+--------------------+---------------+------+-----+---------+--------------+|
+```
 
 # Support
 If you like my work and want to support me
