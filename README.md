@@ -46,6 +46,10 @@ This list is not an official list from TVC and can contains old fields. If this 
 | DCAStepScale       | decimal(4,2)  | YES  |     | NULL    |                |
 |+--------------------+---------------+------+-----+---------+--------------+|
 ```
+## Example
+```Shell
+./TVC_CM --exchange binance --symbols AVAXUSDT,MATICUSDT --update --config basesize --value 12
+```
 
 # Support
 If you like my work and want to support me
