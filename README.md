@@ -7,6 +7,8 @@ Download the script from the latest [release](https://github.com/triat/TVC-confi
 
 Execute the script with the parameters you want `./TVC_CM ...` and this should be it.
 
+Depending on the rights you have on your system, you might need to allow your script to be run. Use the command `sudo chmod 755 TVC_CM`.
+
 ## Parameters
 You can find all the parameters using `./TVC_CM --help`
 

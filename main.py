@@ -4,7 +4,7 @@ A simple tool that execute commands to the TVC DB to update its configuration ta
 """
 
 __author__ = "Tom Riat"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __license__ = "MIT"
 
 
@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 from logzero import logger
 from mysql.connector import errorcode
 
-dotenv_path = Path("~/WickHunterTVCompanion/.env")
+dotenv_path = Path.home().joinpath("WickHunterTVCompanion/.env")
 load_dotenv(dotenv_path=dotenv_path)
 
 
@@ -27,8 +27,7 @@ def main(params, connection):
     logger.debug(params)
 
     if params.update and (params.config is None or params.value is None):
-        logger.debug("Configuration and value is required for an update")
-        return
+        raise ValueError("Configuration and value is required for an update")
 
     sql_cmd = build_cmd(
         params.update,
@@ -50,15 +49,14 @@ def main(params, connection):
 def build_cmd(is_update, config, value, is_delete, symbols, exchange):
     """Build the SQL command"""
     if is_update:
-        cmd = f"UPDATE FROM Configuration SET {config.capitalize()} = " f"'{value}'"
+        cmd = f"UPDATE configuration SET {config.capitalize()} = " f"'{value}'"
     elif is_delete:
-        cmd = "DELETE FROM Configuration"
+        cmd = "DELETE FROM configuration"
     else:
-        logger.debug(
-            "Please specify the action on the configuration, either '--is_update' "
+        raise ValueError(
+            "Specify the action on the configuration, either '--update' "
             "or '--delete'. Use '--help' for more information."
         )
-        return
 
     if symbols is not None or exchange is not None:
         cmd += " WHERE "
@@ -79,7 +77,7 @@ def build_cmd(is_update, config, value, is_delete, symbols, exchange):
         if exchange is not None:
             if symbols is not None:
                 cmd += " AND "
-            cmd += f"Exchange = '{exchange}'"
+            cmd += f"Exchange = '{exchange.lower()}'"
 
     cmd = cmd + ";"
     return cmd
@@ -148,6 +146,8 @@ if __name__ == "__main__":
         logzero.loglevel(logzero.INFO)
 
     try:
+        logger.debug("Connecting to the database")
+        logger.debug(os.getenv("DB_HOST"), os.getenv("DB_USER"), os.getenv("DB_NAME"))
         cnx = mysql.connector.connect(
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASS"),
@@ -157,11 +157,14 @@ if __name__ == "__main__":
         )
         main(args, cnx)
     except mysql.connector.Error as err:
+        logger.debug(err)
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             logger.error("Something is wrong with your user name or password")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             logger.error("Database does not exist")
         else:
             logger.error(err)
+    except ValueError as err:
+        logger.warning(err)
     else:
         cnx.close()
