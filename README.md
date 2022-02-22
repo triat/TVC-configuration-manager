@@ -1,7 +1,7 @@
-# TVC-configuration-manager
+# TVC configuration manager
 A tiny tool that allows you to update all your configuration without going through the GUI. This is an advanced tool that requires to understand what you are doing.
 
-THIS TOOL IS MODIFYING THE DATABASE DIRECTLY AND CAN MESS UP YOUR TVC CONFIGURATION. USE IT AT YOUR OWN RISK
+> :warning: THIS TOOL IS MODIFYING THE DATABASE DIRECTLY AND CAN MESS UP YOUR TVC CONFIGURATION. USE IT AT YOUR OWN RISK
 ## Usage
 Download the script from the latest [release](https://github.com/triat/TVC-configuration-manager/releases) and place it anywhere in your TVC server.
 
